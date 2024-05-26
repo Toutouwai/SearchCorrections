@@ -36,7 +36,7 @@ Where several results have the same Levenshtein distance from the target word th
 
 ```php
 // The input word that may need correcting
-$word = 'dispraxia';
+$target = 'dispraxia';
 
 // Get the Search Corrections module
 $sc = $modules->get('SearchCorrections');
@@ -49,7 +49,7 @@ $options = ['maxChangePercent' => 55];
 
 // Get an array of similar words that exist in the pages/fields you defined
 // The return value is in the format $word => $levenshtein_distance
-$results = $sc->findSimilarWords($word, $selector, $flds, $options);
+$results = $sc->findSimilarWords($target, $selector, $flds, $options);
 ```
 
 Example result:
