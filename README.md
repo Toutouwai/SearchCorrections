@@ -1,12 +1,22 @@
 # Search Corrections
 
-Suggests corrected spellings for search terms based on words that exist in the website.
+Suggests alternative words for a given input word.
 
-## Method
+This can be useful in a website search feature where the given search term produces no results, but an alternative spelling or stem of the term may produce results. 
 
-The module has a single method intended for public use: `SearchCorrections::findSimilarWords($target, $selector, $fields, $options)`
+The module has two methods intended for public use:
 
-It creates a list of unique words (the "word list") that exist on the pages and fields that you define, and compares those words to a target word that you give it. The method returns an array of words that are sufficiently similar to the target word.
+1. `findSimilarWords()`: this method suggests corrected spellings or similar alternatives for the given word based on words that exist in the website.
+
+2. `stem()`: this method returns the [stem](https://en.wikipedia.org/wiki/Stemming) of the given word, which may give a full or partial match for a word within the website.
+
+The module doesn't dictate any particular way of using it in a website search feature, but one possible approach is as follows. If a search produces no matching pages you can take the search term (or if multiple terms, split and then loop over each term) and use the module methods to find alternative words and/or the stem word. Then automatically perform a new search using the alternative word(s), and show a notice to the user, e.g.
+
+> Your search for "begining" produced no matches. Including results for "beginning" and "begin".
+
+## SearchCorrections::findSimilarWords()
+
+This method creates a list of unique words (the "word list") that exist on the pages and fields that you define, and compares those words to a target word that you give it. The method returns an array of words that are sufficiently similar to the target word.
 
 ### Similarity
 
@@ -16,7 +26,7 @@ Where several results have the same Levenshtein distance from the target word th
 
 ### Method arguments
 
-`$target` `(string)` The input word that may have spelling mistakes.
+`$target` `(string)` The input word.
 
 `$selector` `(string)` A selector string to find the pages that the word list will be derived from.
 
@@ -32,7 +42,7 @@ Where several results have the same Levenshtein distance from the target word th
 * `deletionCost` `(int)` This is an optional argument for the PHP `levenshtein()` function. See the [docs](https://www.php.net/manual/en/function.levenshtein.php) for details. Default: `1`
 
 
-## Example of use
+### Example of use
 
 ```php
 // The input word that may need correcting
@@ -55,3 +65,42 @@ $results = $sc->findSimilarWords($target, $selector, $flds, $options);
 Example result:
 
 ![sc-result](https://github.com/Toutouwai/SearchCorrections/assets/1538852/ff15d5de-b673-49b3-9153-f1d92daef527)
+
+## SearchCorrections::stem()
+
+This method uses [php-stemmer](https://github.com/wamania/php-stemmer) to return the [stem](https://en.wikipedia.org/wiki/Stemming) of the given word. As an example, "fish" is the stem of "fishing", "fished", and "fisher".
+
+The returned stem may be the original given word in some cases. The stem is not necessarily a complete word, e.g. the stem of "argued" is "argu". 
+
+If using the stem in a search you will probably want to use a [selector operator](https://processwire.com/docs/selectors/operators/) that can match partial words.
+
+### Method arguments
+
+`$word` `(string)` The input word.
+
+`$language` `(string)` Optional: the language name in English. The valid options are shown below. Default: `english`
+* catalan
+* danish
+* dutch
+* english
+* finnish
+* french
+* german
+* italian
+* norwegian
+* portuguese
+* romanian
+* russian
+* spanish
+* swedish
+
+### Example of use
+
+```php
+// The input word
+$word = 'fishing';
+// Get the Search Corrections module
+$sc = $modules->get('SearchCorrections');
+// Get the stem of the word
+$stem = $sc->stem($word);
+```

@@ -2,8 +2,8 @@
 
 $info = array(
 	'title' => 'Search Corrections',
-	'summary' => 'Suggests corrected spellings for search terms based on words that exist in the website.',
-	'version' => '0.1.0',
+	'summary' => 'Suggests alternative words for a given input word, useful for expanding search results.',
+	'version' => '0.2.0',
 	'author' => 'Robin Sallis',
 	'href' => 'https://github.com/Toutouwai/SearchCorrections',
 	'icon' => 'check-square-o',

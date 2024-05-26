@@ -3,6 +3,19 @@
 class SearchCorrections extends WireData implements Module {
 
 	/**
+	 * Find the stem of a given word
+	 * Uses php-stemmer: https://github.com/wamania/php-stemmer
+	 *
+	 * @param string $word
+	 * @return string
+	 */
+	public function stem($word, $language = 'english') {
+		require_once $this->wire()->config->paths->$this . 'vendor/autoload.php';
+		$stemmer = \Wamania\Snowball\StemmerFactory::create($language);
+		return $stemmer->stem($word);
+	}
+
+	/**
 	 * Find similar words
 	 *
 	 * @param string $target The target (input) word to match against
@@ -14,6 +27,7 @@ class SearchCorrections extends WireData implements Module {
 	public function findSimilarWords($target, $selector, $fields, $options = []) {
 		$cache = $this->wire()->cache;
 		$ns = $this->className;
+		$target = mb_strtolower($target);
 		
 		// Validate fields: only title, text and textarea fields are supported
 		foreach($fields as $key => $field_name) {
@@ -36,8 +50,7 @@ class SearchCorrections extends WireData implements Module {
 		// Get all words, from the cache if available
 		$settings = [$selector, $fields, $options];
 		$cache_name = json_encode($settings);
-		//$all_words = $cache->getFor($ns, $cache_name);
-		$all_words = null;
+		$all_words = $cache->getFor($ns, $cache_name);
 		if(is_null($all_words)) {
 			$uw_options = [
 				'minWordLength' => $options['minWordLength'],
