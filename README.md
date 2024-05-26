@@ -45,7 +45,7 @@ $selector = "template=basic-page";
 // Define an array of field names that the word list will be derived from
 $flds = ['title', 'body'];
 // Optional: override any of the default options
-$options = ['maxChangePercent' => 40];
+$options = ['maxChangePercent' => 55];
 
 // Get an array of similar words that exist in the pages/fields you defined
 // The return value is in the format $word => $levenshtein_distance
@@ -54,4 +54,4 @@ $results = $sc->findSimilarWords($word, $selector, $flds, $options);
 
 Example result:
 
-![sc-result](https://github.com/Toutouwai/SearchCorrections/assets/1538852/6af2f79e-8cc5-454e-a6c8-50ff7c6c8f87)
+![sc-result](https://github.com/Toutouwai/SearchCorrections/assets/1538852/ff15d5de-b673-49b3-9153-f1d92daef527)
