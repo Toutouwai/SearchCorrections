@@ -53,4 +53,5 @@ $results = $sc->findSimilarWords($word, $selector, $flds, $options);
 ```
 
 Example result:
+
 ![sc-result](https://github.com/Toutouwai/SearchCorrections/assets/1538852/6af2f79e-8cc5-454e-a6c8-50ff7c6c8f87)
