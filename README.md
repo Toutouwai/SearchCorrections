@@ -14,9 +14,11 @@ The module doesn't dictate any particular way of using it in a website search fe
 
 > Your search for "begining" produced no matches. Including results for "beginning" and "begin".
 
-## SearchCorrections::findSimilarWords()
+## findSimilarWords()
 
-This method creates a list of unique words (the "word list") that exist on the pages and fields that you define, and compares those words to a target word that you give it. The method returns an array of words that are sufficiently similar to the target word.
+This method creates a list of unique words (the "word list") that exist on the pages and fields that you define, and compares those words to a target word that you give it. The method returns an array of words that are sufficiently similar to the target word. 
+
+For multi-language sites, the `$user` language determines which language populates the word list.
 
 ### Similarity
 
@@ -66,7 +68,7 @@ Example result:
 
 ![sc-result](https://github.com/Toutouwai/SearchCorrections/assets/1538852/ff15d5de-b673-49b3-9153-f1d92daef527)
 
-## SearchCorrections::stem()
+## stem()
 
 This method uses [php-stemmer](https://github.com/wamania/php-stemmer) to return the [stem](https://en.wikipedia.org/wiki/Stemming) of the given word. As an example, "fish" is the stem of "fishing", "fished", and "fisher".
 
@@ -93,6 +95,8 @@ If using the stem in a search you will probably want to use a [selector operator
 * russian
 * spanish
 * swedish
+
+Alternatively, you can use the [ISO 639 language code](https://en.wikipedia.org/wiki/List_of_ISO_639_language_codes) for any of the above languages.
 
 ### Example of use
 

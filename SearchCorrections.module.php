@@ -137,6 +137,16 @@ class SearchCorrections extends WireData implements Module {
 	 * @return array
 	 */
 	protected function getUniqueWords($selector, $fields) {
+		$user = $this->wire()->user;
+
+		// Set field column names according to user language
+		$lang_id = '';
+		if($user->language && !$user->language->isDefault()) $lang_id = $user->language->id;
+		$column = 'data' . $lang_id;
+		foreach($fields as $key => $field) {
+			$fields[$key] = "$field.$column";
+		}
+
 		// Get raw data
 		$data = $this->wire()->pages->findRaw($selector, $fields, ['nulls' => true, 'flat' => true]);
 		// Concatenate text
