@@ -19,9 +19,9 @@ class SearchCorrections extends WireData implements Module {
 	 * Find similar words
 	 *
 	 * @param string $target The target (input) word to match against
-	 * @param string $selector A selector string that defines the
-	 * @param array $fields
-	 * @param array $options
+	 * @param string $selector A selector string to find the pages that the word list will be derived from
+	 * @param array $fields An array of field names that the word list will be derived from
+	 * @param array $options An array of options as described in the readme
 	 * @return array
 	 */
 	public function findSimilarWords($target, $selector, $fields, $options = []) {
@@ -136,7 +136,7 @@ class SearchCorrections extends WireData implements Module {
 	 * @param array $options
 	 * @return array
 	 */
-	protected function getUniqueWords($selector, $fields) {
+	protected function getUniqueWords($selector, $fields, $options) {
 		$user = $this->wire()->user;
 
 		// Set field column names according to user language
@@ -170,7 +170,7 @@ class SearchCorrections extends WireData implements Module {
 			if(is_numeric($word)) continue;
 			$length = mb_strlen($word, 'UTF-8');
 			// Skip anything below the minimum word length
-			//if($length < $options['minWordLength']) continue;
+			if($length < $options['minWordLength']) continue;
 			$lengths[$length][] = $word;
 		}
 		// Sort array by key (length)
